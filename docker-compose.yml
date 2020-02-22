@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  frontend:
+    image: jy95/sourcecode-front
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "80:3000"
+      - "443:3000"
+    environment:
+      API_SERVER: "api:8080"
+      CDN_SERVER: "api:8080/files"
+  api:
+    image: jy95/sourcecode_api
+    restart: always
+    ports:
+      - "8080:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-jy95}@db:5432/${POSTGRES_DB:-sourcecode}"
+      # use a env file if you want to use other values that default ones
+      # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
+  db:
+    image: postgres:12-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      # use a env file for that part later
+      # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jy95
+      POSTGRES_DB: sourcecode
+      POSTGRES_PORT: 5432
+      # If we want to access more easily to the database (not recommended)
+      # PGDATA: /var/lib/postgresql/data/pg_data
+    #volumes:
+    #  - pg_data:/var/lib/postgresql/data/pg_data
