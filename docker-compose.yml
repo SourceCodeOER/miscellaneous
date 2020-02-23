@@ -19,6 +19,7 @@ services:
     depends_on:
       - db
     environment:
+      NODE_ENV: production
       DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-jy95}@db:5432/${POSTGRES_DB:-sourcecode}"
       # use a env file if you want to use other values that default ones
       # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
