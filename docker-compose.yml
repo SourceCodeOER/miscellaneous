@@ -9,8 +9,8 @@ services:
       - "80:3000"
       - "443:3000"
     environment:
-      API_SERVER: "api:8080"
-      CDN_SERVER: "api:8080/files"
+      API_SERVER: "api:3000"
+      CDN_SERVER: "api:3000/files"
   api:
     image: jy95/sourcecode_api
     restart: always
