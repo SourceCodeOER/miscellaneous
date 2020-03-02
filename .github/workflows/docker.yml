@@ -5,9 +5,26 @@ on:
 
 jobs:
   validate_config_file:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Validate docker-compose.yml
         run: |
           docker-compose config --quiet
+  runtime-check:
+    needs: validate_config_file
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check if docker-compose.yml works as expected
+        run: |
+          docker-compose up -d
+      - name: List all containers
+        run: |
+          docker ps -a
+      - name: List all images
+        run: |
+          docker images
+      - name: List all networks
+        run: |
+          docker network ls
