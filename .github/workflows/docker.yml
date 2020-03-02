@@ -7,6 +7,7 @@ jobs:
   validate_config_file:
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v2
       - name: Validate docker-compose.yml
         run: |
           docker-compose config --quiet
