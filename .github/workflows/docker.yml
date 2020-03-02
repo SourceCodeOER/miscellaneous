@@ -1,0 +1,12 @@
+name: Docker Compose Integration
+
+on:
+  push:
+
+jobs:
+  validate_config_file:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Validate docker-compose.yml
+        run: |
+          docker-compose config --quiet
