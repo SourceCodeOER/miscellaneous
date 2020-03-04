@@ -1,0 +1,31 @@
+name: Source Code Postgres
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build
+        run: docker build -t sourcecode-postgres sourcecode-postgres
+      - name: Tags
+        run: |
+          docker tag sourcecode-postgres ${{ secrets.DOCKER_USER }}/sourcecode-postgres:${{ github.sha }}
+          docker tag sourcecode-postgres ${{ secrets.DOCKER_USER }}/sourcecode-postgres:latest
+      - name: Push version
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/sourcecode-postgres:${{ github.sha }}
+      - name: Push release ( only on master )
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/sourcecode-postgres:latest
