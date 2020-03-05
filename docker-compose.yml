@@ -20,11 +20,17 @@ services:
       - db
     environment:
       NODE_ENV: production
+      # To have understandable logs in docker logs
+      DEBUG: sourcecode_api:error_handler
       DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-jy95}@db:5432/${POSTGRES_DB:-sourcecode}"
+      DATABASE_SCHEMA: exercises_library
       # use a env file if you want to use other values that default ones
       # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
+    volumes:
+      # For the CDN part of this advanced prototype
+      - ./sourcecode-api/files:/api/files
   db:
-    image: postgres:12-alpine
+    image: jy95/sourcecode-postgres
     restart: always
     ports:
       - "5432:5432"
@@ -35,7 +41,8 @@ services:
       POSTGRES_PASSWORD: jy95
       POSTGRES_DB: sourcecode
       POSTGRES_PORT: 5432
-      # If we want to access more easily to the database (not recommended)
-      # PGDATA: /var/lib/postgresql/data/pg_data
-    #volumes:
-    #  - pg_data:/var/lib/postgresql/data/pg_data
+    volumes:
+      # the default value is "/var/lib/postgresql/data"
+      # (https://github.com/docker-library/docs/blob/master/postgres/README.md#pgdata)
+      # We must create the folder "/tmp/db_data" on the host with the required permisssions
+      - /tmp/db_data:/var/lib/postgresql/data
