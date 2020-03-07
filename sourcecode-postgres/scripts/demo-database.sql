@@ -2555,6 +2555,7 @@ COPY exercises_library."SequelizeMeta" (name) FROM stdin;
 20191227002857-replaceIsValidatedByStatusInExercise.js
 20200116145402-addNewEnumValues.js
 20200226152253-replaceIsValidatedByState.js
+20200307114926-addMaterializedViewForTagsSummary.js
 \.
 
 
