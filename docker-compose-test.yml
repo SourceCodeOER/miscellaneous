@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  db:
+    image: jy95/sourcecode-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      # use a env file for that part later
+      # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jy95
+      POSTGRES_DB: sourcecode
+      POSTGRES_PORT: 5432
+    volumes:
+      # the default value is "/var/lib/postgresql/data"
+      # (https://github.com/docker-library/docs/blob/master/postgres/README.md#pgdata)
+      # We must create the folder "/tmp/db_data" on the host with the required permisssions
+      - ./sourcecode-db:/var/lib/postgresql/data
