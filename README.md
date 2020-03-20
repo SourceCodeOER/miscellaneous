@@ -13,7 +13,7 @@ Using [Docker Compose](https://docs.docker.com/compose/gettingstarted/) :
 ( Useful to get the fresh application deployed on a production server )
 
 ```
-docker-compose docker-compose-prod.yml up -d
+docker-compose -f docker-compose-prod.yml up -d
 ```
 
 ### For testing 
@@ -21,5 +21,5 @@ docker-compose docker-compose-prod.yml up -d
 ( Useful for instance to get feedbacks/reviews about the application with some real data ) 
 
 ```
-docker-compose docker-compose-test.yml up -d
+docker-compose -f docker-compose-test.yml up -d
 ```
