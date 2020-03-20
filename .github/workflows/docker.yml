@@ -16,11 +16,11 @@ jobs:
         run: |
           docker-compose -f ${{ matrix.file }} config --quiet
       - name: Check if ${{ matrix.file }} works as expected
-        if: matrix.file == "docker-compose.yml"
+        if: matrix.file == 'docker-compose.yml'
         run: |
           docker-compose up -d
       - name: Check if ${{ matrix.file }} works as expected
-        if: matrix.file == "docker-compose-test.yml"
+        if: matrix.file == 'docker-compose-test.yml'
         run: |
           docker-compose -f docker-compose.yml -f ${{ matrix.file }} up -d
       - name: List all containers
