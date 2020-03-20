@@ -4,21 +4,20 @@ on:
   push:
 
 jobs:
-  validate_config_file:
+  validate_and_test_config_files:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file: [docker-compose-prod.yml, docker-compose-test.yml]
+      fail-fast: true
     steps:
       - uses: actions/checkout@v2
-      - name: Validate docker-compose.yml
+      - name: Validate ${{ matrix.file }}
         run: |
-          docker-compose config --quiet
-  runtime-check:
-    needs: validate_config_file
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Check if docker-compose.yml works as expected
+          docker-compose -f ${{ matrix.file }} config --quiet
+      - name: Check if ${{ matrix.file }} works as expected
         run: |
-          docker-compose up -d
+          docker-compose -f ${{ matrix.file }} up -d
       - name: List all containers
         run: |
           docker ps -a

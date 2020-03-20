@@ -30,7 +30,7 @@ services:
       # For the CDN part of this advanced prototype
       - ./sourcecode-api/files:/api/files
   db:
-    image: jy95/sourcecode-postgres
+    image: postgres:12-alpine
     restart: always
     ports:
       - "5432:5432"
@@ -45,4 +45,4 @@ services:
       # the default value is "/var/lib/postgresql/data"
       # (https://github.com/docker-library/docs/blob/master/postgres/README.md#pgdata)
       # We must create the folder "/tmp/db_data" on the host with the required permisssions
-      - /tmp/db_data:/var/lib/postgresql/data
+      - ./sourcecode-db:/var/lib/postgresql/data
