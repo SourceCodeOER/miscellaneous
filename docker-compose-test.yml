@@ -1,5 +1,34 @@
 version: '3.7'
 services:
+  frontend:
+    image: jy95/sourcecode-front
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "80:3000"
+      - "443:3000"
+    environment:
+      API_SERVER: "http://api:3000"
+      CDN_SERVER: "http://api:3000/files"
+  api:
+    image: jy95/sourcecode_api
+    restart: always
+    ports:
+      - "8080:3000"
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: production
+      # To have understandable logs in docker logs
+      DEBUG: sourcecode_api:error_handler
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-jy95}@db:5432/${POSTGRES_DB:-sourcecode}"
+      DATABASE_SCHEMA: exercises_library
+      # use a env file if you want to use other values that default ones
+      # https://docs.docker.com/compose/environment-variables/#the-env_file-configuration-option
+    volumes:
+      # For the CDN part of this advanced prototype
+      - ./sourcecode-api/files:/api/files
   db:
     image: jy95/sourcecode-postgres
     restart: always

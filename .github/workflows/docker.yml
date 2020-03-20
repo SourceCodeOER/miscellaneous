@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: [docker-compose.yml, docker-compose-test.yml]
+        file: [docker-compose-prod.yml, docker-compose-test.yml]
       fail-fast: true
     steps:
       - uses: actions/checkout@v2
@@ -16,13 +16,8 @@ jobs:
         run: |
           docker-compose -f ${{ matrix.file }} config --quiet
       - name: Check if ${{ matrix.file }} works as expected
-        if: matrix.file == 'docker-compose.yml'
         run: |
-          docker-compose up -d
-      - name: Check if ${{ matrix.file }} works as expected
-        if: matrix.file == 'docker-compose-test.yml'
-        run: |
-          docker-compose -f docker-compose.yml -f ${{ matrix.file }} up -d
+          docker-compose -f ${{ matrix.file }} up -d
       - name: List all containers
         run: |
           docker ps -a
