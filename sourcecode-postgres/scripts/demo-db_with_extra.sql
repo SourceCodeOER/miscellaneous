@@ -11,3 +11,7 @@ COPY exercises_library."Tags" (id, text, "createdAt", "updatedAt", version, cate
 181	example	2020-03-04 11:48:58.716+00	2020-03-04 11:48:58.716+00	0	3	DEPRECATED
 \.
 
+-- Update state of following exercises
+UPDATE exercises_library."Exercises"
+SET state = 'PENDING'
+WHERE id IN (102, 196, 162);
