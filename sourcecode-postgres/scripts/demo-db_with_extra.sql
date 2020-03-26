@@ -15,3 +15,17 @@ COPY exercises_library."Tags" (id, text, "createdAt", "updatedAt", version, cate
 UPDATE exercises_library."Exercises"
 SET state = 'PENDING'
 WHERE id IN (102, 196, 162);
+
+-- Creates N (here N=10) admin users called "admin ?" (where ? is replaced by a letter of the alphabet string) with password "admin"
+INSERT INTO exercises_library."Users"(email, password, "fullName", role)
+SELECT 
+    CONCAT('admin', a, '@sourcecode.be') AS "email",
+    '$2a$10$jbUgpnaFTPbfnafT2uBRL.OuhCS.lY8DDQh9KfPj9F7jnGu8cuhAq' AS "password",
+    CONCAT('Admin', ' ', a) AS "fullName",
+    'admin' AS "role"
+FROM unnest(
+    regexp_split_to_array(
+        LEFT('ABCDEFGHIJKLMNOPQRSTUVWXYZ',10),
+        ''
+    )
+) a;
