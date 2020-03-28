@@ -27,3 +27,14 @@ FROM unnest(
         ''
     )
 ) a;
+
+-- Randomize "updatedAt" field of each sheet
+-- ( since "createdAt" for each sheet is 2019-12-30 , an random interval of 90 days should be enough using NOW )
+WITH randomizeRows AS (
+    SELECT id, NOW() - (random() * (interval '90 days')) AS "randomTimestamp"
+    FROM exercises_library."Exercises"
+)
+UPDATE exercises_library."Exercises" as f
+SET "updatedAt" = randomizeRows."randomTimestamp"
+FROM randomizeRows
+WHERE f.id = randomizeRows.id;
