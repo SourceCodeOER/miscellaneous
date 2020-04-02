@@ -13,6 +13,12 @@ services:
       CDN_SERVER: "http://api:3000/files"
   api:
     image: jy95/sourcecode_api
+    # To create the db the first time (as it is the raw postgres image) (also work when restart, thanks to volume)
+    entrypoint: >
+      sh -c "if ! npx sequelize db:migrate:status; then
+                npm run setUp
+             fi
+             npm run start"
     restart: always
     ports:
       - "8080:3000"
