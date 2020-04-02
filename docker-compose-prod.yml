@@ -14,9 +14,12 @@ services:
   api:
     image: jy95/sourcecode_api
     # To create the db the first time (as it is the raw postgres image) (also work when restart, thanks to volume)
-    entrypoint: >
+    command: >
       sh -c "if ! npx sequelize db:migrate:status; then
-                npm run setUp
+                if [ ! -z $$DATABASE_SCHEMA ]; then
+                  npm run createSchema
+                fi
+                npm run migrate
              fi
              npm run start"
     restart: always
