@@ -42,7 +42,7 @@ WHERE f.id = randomizeRows.id;
 -- Creates N (here N=10) 'PENDING' tags called "admin ?" (where ? is replaced by a letter of the alphabet string)
 INSERT INTO exercises_library."Tags" (text, "createdAt", "updatedAt", version, category_id, state)
 SELECT
-    CONCAT('admin', ' ', a) AS "fullName",
+    CONCAT('admin', ' ', a),
     '2020-03-04 11:48:58.716+00',
     '2020-03-04 11:48:58.716+00',
     0,
