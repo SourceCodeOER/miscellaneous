@@ -39,6 +39,9 @@ SET "updatedAt" = randomizeRows."randomTimestamp"
 FROM randomizeRows
 WHERE f.id = randomizeRows.id;
 
+-- need that so that following inserts work as expected
+ALTER SEQUENCE exercises_library."Tags_id_seq" RESTART WITH 180;
+
 -- Creates N (here N=10) 'PENDING' tags called "admin ?" (where ? is replaced by a letter of the alphabet string)
 INSERT INTO exercises_library."Tags" (text, "createdAt", "updatedAt", version, category_id, state)
 SELECT
