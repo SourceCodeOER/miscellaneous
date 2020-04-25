@@ -38,3 +38,19 @@ UPDATE exercises_library."Exercises" as f
 SET "updatedAt" = randomizeRows."randomTimestamp"
 FROM randomizeRows
 WHERE f.id = randomizeRows.id;
+
+-- Creates N (here N=10) 'PENDING' tags called "admin ?" (where ? is replaced by a letter of the alphabet string)
+INSERT INTO exercises_library."Tags" (text, "createdAt", "updatedAt", version, category_id, state)
+SELECT
+    CONCAT('admin', ' ', a) AS "fullName",
+    '2020-03-04 11:48:58.716+00',
+    '2020-03-04 11:48:58.716+00',
+    0,
+    6,
+    'PENDING'
+FROM unnest(
+    regexp_split_to_array(
+        LEFT('ABCDEFGHIJKLMNOPQRSTUVWXYZ',10),
+        ''
+    )
+) a;
