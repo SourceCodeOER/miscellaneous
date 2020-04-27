@@ -95,3 +95,7 @@ COPY exercises_library."Exercises_Tags" (exercise_id, tag_id) FROM stdin;
 227	133
 227	49
 \.
+
+-- Don't forgot to update sequence numbers !!!
+ALTER SEQUENCE exercises_library."Exercises_Metrics_id_seq" RESTART WITH 228;
+ALTER SEQUENCE exercises_library."Exercises_id_seq" RESTART WITH 228;
